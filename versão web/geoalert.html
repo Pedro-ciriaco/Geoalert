@@ -6,6 +6,7 @@
   <title>GeoAlert</title>
 
   <link rel="stylesheet" href="geoalertstyle.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
   <!-- Fonte -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,22 +34,24 @@
         <img src="assets/images/onibus_silhueta.png" alt="Ícone ônibus">
       </div>
 
-      <div class="input-box">
+<!--       <div class="input-box">
         <label>Destino:</label>
         <input type="text" placeholder="Selecionar destino">
-      </div>
+      </div> -->
 
       <div class="input-box">
         <label>Raio:</label>
-        <input type="text" placeholder="Selecionar raio">
+        <input type="number" id="raio" placeholder="Raio em metros" value="500">
       </div>
 
+      <div id="map"></div>
       <div class="line"></div>
       <button>Iniciar viagem</button>
 
     </section>
 
   </main>
-
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
