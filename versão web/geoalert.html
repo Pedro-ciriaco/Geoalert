@@ -1,57 +1,94 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GeoAlert</title>
 
-  <link rel="stylesheet" href="geoalertstyle.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Fonte -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>GeoAlert</title>
+
+    <link rel="stylesheet" href="geoalertstyle.css">
+
+    <link rel="stylesheet"
+    href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
 
-  <header>
-    <h1>GeoAlert</h1>
-  </header>
+    <header>
 
-  <main class="container">
+        <h1>GeoAlert</h1>
 
-    <!-- LADO ESQUERDO -->
-    <section class="left-side">
-      <img src="assets/images/onibus.jpg" alt="Ônibus">
-    </section>
+    </header>
 
-    <!-- LADO DIREITO -->
-    <section class="right-side">
+    <main class="container">
 
-      <div class="bus-icon">
-        <img src="assets/images/onibus_silhueta.png" alt="Ícone ônibus">
-      </div>
+        <!-- LADO ESQUERDO -->
 
-<!--       <div class="input-box">
-        <label>Destino:</label>
-        <input type="text" placeholder="Selecionar destino">
-      </div> -->
+        <section class="left-side">
 
-      <div class="input-box">
-        <label>Raio:</label>
-        <input type="number" id="raio" placeholder="Raio em metros" value="500">
-      </div>
+            <img src="assets/images/onibus.jpg" alt="Ônibus">
 
-      <div id="map"></div>
-      <div class="line"></div>
-      <button>Iniciar viagem</button>
+        </section>
 
-    </section>
+        <!-- LADO DIREITO -->
 
-  </main>
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script src="script.js"></script>
+        <section class="right-side">
+
+            <!-- BUSCA -->
+
+            <div class="search-box">
+
+                <img src="assets/images/lupa_pesquisa.png" alt="Buscar">
+
+                <input type="text"
+                placeholder="Buscar local">
+
+            </div>
+
+            <!-- MAPA -->
+
+            <div id="map"></div>
+
+            <!-- RAIO -->
+
+            <div class="input-box">
+
+                <label>Raio:</label>
+
+                <input
+                id="raio"
+                type="number"
+                value="500"
+                placeholder="Raio em metros">
+
+            </div>
+
+            <!-- LINHA -->
+
+            <div class="line"></div>
+
+            <!-- BOTÃO -->
+
+            <button id="iniciar">
+
+                Iniciar viagem
+
+            </button>
+
+        </section>
+
+    </main>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script src="script.js"></script>
+
 </body>
 </html>

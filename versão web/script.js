@@ -1,117 +1,122 @@
-const alarme = new Audio("assets/sounds/som_alarme.wav");
-let alertaAtivado = false;
-
 const mapa = L.map('map');
+
+let marcadorUsuario;
+let marcadorDestino;
+
 let destinoLat = null;
 let destinoLong = null;
 
-let usuarioLat = null;
-let usuarioLong = null;
+let primeiraLocalizacao = true;
 
-let marcadorUsuario;
+/* GPS */
 
-navigator.geolocation.watchPosition((posicao) => {
+navigator.geolocation.watchPosition((posicao)=>{
 
-    const latitudeUsuario = posicao.coords.latitude;
-    const longitudeUsuario = posicao.coords.longitude;
+    const latitudeUsuario =
+    posicao.coords.latitude;
 
-    usuarioLat = latitudeUsuario;
-    usuarioLong = longitudeUsuario;
+    const longitudeUsuario =
+    posicao.coords.longitude;
 
-    mapa.setView([latitudeUsuario, longitudeUsuario], 15);
+    if(primeiraLocalizacao){
 
-    if(marcadorUsuario){
-        mapa.removeLayer(marcadorUsuario);
+        mapa.setView(
+            [latitudeUsuario, longitudeUsuario],
+            15
+        );
+
+        primeiraLocalizacao = false;
+
     }
 
-    marcadorUsuario = L.marker([latitudeUsuario, longitudeUsuario])
+    if(marcadorUsuario){
+
+        mapa.removeLayer(marcadorUsuario);
+
+    }
+
+    marcadorUsuario = L.marker([
+        latitudeUsuario,
+        longitudeUsuario
+    ])
     .addTo(mapa)
     .bindPopup("Você está aqui");
 
-    const raio = parseFloat(document.getElementById("raio").value); 
-    if(destinoLat !== null && destinoLong !== null){
-
-        const distancia = calcularDistancia(
-            latitudeUsuario,
-            longitudeUsuario,
-            destinoLat,
-            destinoLong
-        );
-
-        console.log("Distância até destino:");
-        console.log(distancia.toFixed(2), "metros");
-
-        if(distancia <= raio && !alertaAtivado){
-            alertaAtivado = true;
-            alarme.play();
-            alert("Você chegou perto do destino!");
-            navigator.vibrate(1000);
-        }
-
-    }
-
+},
+(error)=>{
+    console.log(error);
+},
+{
+    enableHighAccuracy: true
 });
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-}).addTo(mapa);
+/* MAPA */
 
-let marcadorDestino;
+L.tileLayer(
+'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+{
+    attribution: '&copy; OpenStreetMap contributors'
+})
+.addTo(mapa);
+
+/* DESTINO */
 
 mapa.on('click', function(e){
-
-    const latitudeDestino = e.latlng.lat;
-    const longitudeDestino = e.latlng.lng;
 
     destinoLat = e.latlng.lat;
     destinoLong = e.latlng.lng;
 
-    alertaAtivado = false;
-
-    if(usuarioLat !== null && usuarioLong !== null){
-
-    const distancia = calcularDistancia(
-        usuarioLat,
-        usuarioLong,
-        destinoLat,
-        destinoLong
-    );
-
-    console.log("Distância:");
-    console.log(distancia.toFixed(2), "metros");
-
-}
-
     console.log("Destino:");
-    console.log(latitudeDestino, longitudeDestino);
+    console.log(destinoLat, destinoLong);
 
     if(marcadorDestino){
+
         mapa.removeLayer(marcadorDestino);
+
     }
 
-    marcadorDestino = L.marker([latitudeDestino, longitudeDestino])
+    marcadorDestino = L.marker([
+        destinoLat,
+        destinoLong
+    ])
     .addTo(mapa)
     .bindPopup("Destino selecionado")
     .openPopup();
 
 });
-function calcularDistancia(lat1, lon1, lat2, lon2){
 
-    const raioTerra = 6371e3;
+/* BOTÃO */
 
-    const phi1 = lat1 * Math.PI/180;
-    const phi2 = lat2 * Math.PI/180;
+document.getElementById("iniciar")
+.addEventListener("click", ()=>{
 
-    const deltaPhi = (lat2-lat1) * Math.PI/180;
-    const deltaLambda = (lon2-lon1) * Math.PI/180;
+    if(destinoLat === null ||
+       destinoLong === null){
 
-    const a =
-        Math.sin(deltaPhi/2) * Math.sin(deltaPhi/2) +
-        Math.cos(phi1) * Math.cos(phi2) *
-        Math.sin(deltaLambda/2) * Math.sin(deltaLambda/2);
+        alert("Selecione um destino no mapa.");
 
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return;
+    }
 
-    return raioTerra * c;
+    localStorage.setItem(
+        "destinoLat",
+        destinoLat
+    );
 
-}
+    localStorage.setItem(
+        "destinoLong",
+        destinoLong
+    );
+
+    const raio =
+    document.getElementById("raio").value;
+
+    localStorage.setItem(
+        "raio",
+        raio
+    );
+
+    window.location.href =
+    "viagem.html";
+
+});
