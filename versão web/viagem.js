@@ -4,14 +4,30 @@ let alertaAtivado = false;
 
 const mapa = L.map('map');
 
-let destinoLat = null;
-let destinoLong = null;
+/* DESTINO SALVO */
+
+let destinoLat =
+parseFloat(localStorage.getItem("destinoLat"));
+
+let destinoLong =
+parseFloat(localStorage.getItem("destinoLong"));
+
+/* RAIO SALVO */
+
+const raio =
+parseFloat(localStorage.getItem("raio")) * 1000;
+
+/* USUÁRIO */
 
 let usuarioLat = null;
 let usuarioLong = null;
 
+/* MARCADORES */
+
 let marcadorUsuario;
 let marcadorDestino;
+
+/* CONTROLE */
 
 let primeiraLocalizacao = true;
 
@@ -19,19 +35,29 @@ let primeiraLocalizacao = true;
 
 navigator.geolocation.watchPosition((posicao)=>{
 
-    const latitudeUsuario = posicao.coords.latitude;
-    const longitudeUsuario = posicao.coords.longitude;
+    const latitudeUsuario =
+    posicao.coords.latitude;
+
+    const longitudeUsuario =
+    posicao.coords.longitude;
 
     usuarioLat = latitudeUsuario;
     usuarioLong = longitudeUsuario;
 
+    /* CENTRALIZA APENAS UMA VEZ */
+
     if(primeiraLocalizacao){
 
-        mapa.setView([latitudeUsuario, longitudeUsuario], 15);
+        mapa.setView(
+            [latitudeUsuario, longitudeUsuario],
+            15
+        );
 
         primeiraLocalizacao = false;
 
     }
+
+    /* REMOVE MARCADOR ANTIGO */
 
     if(marcadorUsuario){
 
@@ -39,31 +65,48 @@ navigator.geolocation.watchPosition((posicao)=>{
 
     }
 
-    marcadorUsuario = L.marker([latitudeUsuario, longitudeUsuario])
+    /* MARCADOR USUÁRIO */
+
+    marcadorUsuario = L.marker([
+        latitudeUsuario,
+        longitudeUsuario
+    ])
     .addTo(mapa)
     .bindPopup("Você está aqui");
 
-    if(destinoLat !== null && destinoLong !== null){
+    /* CÁLCULO DISTÂNCIA */
+
+    if(destinoLat !== null &&
+       destinoLong !== null){
 
         const distancia = calcularDistancia(
+
             latitudeUsuario,
             longitudeUsuario,
+
             destinoLat,
             destinoLong
+
         );
 
-        console.log(distancia.toFixed(2));
+        console.log(
+            distancia.toFixed(2)
+        );
 
-        document.getElementById("distancia").innerText =
-        distancia.toFixed(0);
+        document.getElementById(
+            "distancia"
+        ).innerText = distancia.toFixed(0);
 
-        const raio = 500;
+        /* ALERTA */
 
-        if(distancia <= raio && !alertaAtivado){
+        if(distancia <= raio &&
+           !alertaAtivado){
 
             alertaAtivado = true;
 
-            document.body.classList.add("alerta");
+            document.body.classList.add(
+                "alerta"
+            );
 
             alarme.play();
 
@@ -75,7 +118,9 @@ navigator.geolocation.watchPosition((posicao)=>{
 
 },
 (error)=>{
+
     console.log(error);
+
 },
 {
     enableHighAccuracy: true
@@ -83,38 +128,32 @@ navigator.geolocation.watchPosition((posicao)=>{
 
 /* MAPA */
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+L.tileLayer(
 
-    attribution: '&copy; OpenStreetMap contributors'
+'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 
-}).addTo(mapa);
+{
+    attribution:
+    '&copy; OpenStreetMap contributors'
+}
 
-/* ESCOLHER DESTINO */
+).addTo(mapa);
 
-mapa.on('click', function(e){
+/* MOSTRAR DESTINO */
 
-    const latitudeDestino = e.latlng.lat;
-    const longitudeDestino = e.latlng.lng;
+if(destinoLat && destinoLong){
 
-    destinoLat = latitudeDestino;
-    destinoLong = longitudeDestino;
+    marcadorDestino = L.marker([
 
-    alertaAtivado = false;
+        destinoLat,
+        destinoLong
 
-    document.body.classList.remove("alerta");
-
-    if(marcadorDestino){
-
-        mapa.removeLayer(marcadorDestino);
-
-    }
-
-    marcadorDestino = L.marker([latitudeDestino, longitudeDestino])
+    ])
     .addTo(mapa)
-    .bindPopup("Destino selecionado")
+    .bindPopup("Destino")
     .openPopup();
 
-});
+}
 
 /* ENCERRAR */
 
@@ -125,7 +164,8 @@ document.querySelector(".encerrar")
 
     alarme.currentTime = 0;
 
-    document.body.classList.remove("alerta");
+    window.location.href =
+    "geoalert.html";
 
 });
 
@@ -134,33 +174,51 @@ document.querySelector(".encerrar")
 document.querySelector(".rota")
 .addEventListener("click", ()=>{
 
-    alert("Clique no mapa para selecionar um novo destino.");
+    window.location.href =
+    "geoalert.html";
 
 });
 
 /* DISTÂNCIA */
 
-function calcularDistancia(lat1, lon1, lat2, lon2){
+function calcularDistancia(
+    lat1,
+    lon1,
+    lat2,
+    lon2
+){
 
     const raioTerra = 6371e3;
 
-    const phi1 = lat1 * Math.PI / 180;
-    const phi2 = lat2 * Math.PI / 180;
+    const phi1 =
+    lat1 * Math.PI / 180;
 
-    const deltaPhi = (lat2-lat1) * Math.PI / 180;
-    const deltaLambda = (lon2-lon1) * Math.PI / 180;
+    const phi2 =
+    lat2 * Math.PI / 180;
+
+    const deltaPhi =
+    (lat2-lat1) * Math.PI / 180;
+
+    const deltaLambda =
+    (lon2-lon1) * Math.PI / 180;
 
     const a =
 
-        Math.sin(deltaPhi/2) * Math.sin(deltaPhi/2) +
+        Math.sin(deltaPhi/2) *
+        Math.sin(deltaPhi/2) +
 
-        Math.cos(phi1) * Math.cos(phi2) *
+        Math.cos(phi1) *
+        Math.cos(phi2) *
 
         Math.sin(deltaLambda/2) *
         Math.sin(deltaLambda/2);
 
     const c =
-        2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        2 * Math.atan2(
+            Math.sqrt(a),
+            Math.sqrt(1-a)
+        );
 
     return raioTerra * c;
 
