@@ -1,0 +1,195 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    --navy: #1C2C5B;
+    --darkNavy: #101B47;
+    --grayBlue: #6D7680;
+    --darkGray: #404B55;
+    --cream: #F1E7D6;
+    --red: #D91F32;
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--cream);
+
+    min-height: 100vh;
+}
+
+/* HEADER */
+
+header{
+    width: 100%;
+    height: 90px;
+
+    background: rgba(108, 117, 125, 0.75);
+
+    display: flex;
+    align-items: center;
+
+    padding-left: 40px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.4);
+
+    backdrop-filter: blur(5px);
+}
+
+header h1{
+    color: var(--navy);
+
+    font-size: 3rem;
+    font-weight: 400;
+}
+
+/* MAIN */
+
+.container{
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding-top: 35px;
+}
+
+/* MAPA */
+
+.map-section{
+    width: 90%;
+}
+
+#map{
+    width: 100%;
+    height: 320px;
+
+    border: 8px solid var(--red);
+    border-radius: 25px;
+
+    overflow: hidden;
+}
+
+/* PAINEL */
+
+.painel{
+    width: 90%;
+
+    margin-top: 45px;
+}
+
+/* STATUS */
+
+.status-box{
+    width: 100%;
+    height: 170px;
+
+    background-color: var(--grayBlue);
+
+    border-radius: 20px 20px 0 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.status-box h2{
+    color: white;
+
+    font-size: 2.5rem;
+    font-weight: 400;
+}
+
+/* BUTTONS */
+
+.buttons-box{
+    width: 100%;
+    height: 110px;
+
+    background-color: var(--darkGray);
+
+    border-radius: 0 0 20px 20px;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.btn{
+    background: transparent;
+    border: none;
+
+    color: white;
+
+    font-size: 1.5rem;
+    font-family: 'Poppins', sans-serif;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.btn:hover{
+    transform: scale(1.05);
+}
+
+.divider{
+    width: 2px;
+    height: 60%;
+
+    background-color: rgba(255,255,255,0.8);
+}
+
+/* ALERTA */
+
+.alerta #map{
+    border-color: var(--navy);
+}
+
+.alerta .status-box{
+    background-color: var(--navy);
+}
+
+.alerta .buttons-box{
+    background-color: var(--darkNavy);
+
+    justify-content: center;
+}
+
+.alerta .divider{
+    display: none;
+}
+
+.alerta .rota{
+    display: none;
+}
+
+.alerta .encerrar{
+    font-size: 1.7rem;
+}
+
+/* RESPONSIVO */
+
+@media(max-width: 900px){
+
+    header h1{
+        font-size: 2.2rem;
+    }
+
+    #map{
+        height: 240px;
+    }
+
+    .status-box h2{
+        font-size: 1.7rem;
+        text-align: center;
+    }
+
+    .btn{
+        font-size: 1rem;
+    }
+
+}

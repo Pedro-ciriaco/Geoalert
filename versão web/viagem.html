@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GeoAlert - Viagem</title>
+
+    <link rel="stylesheet" href="viagem.css">
+
+    <link rel="stylesheet"
+    href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <header>
+
+        <h1>GeoAlert</h1>
+
+    </header>
+
+    <main class="container">
+
+        <!-- MAPA -->
+
+        <section class="map-section">
+
+            <div id="map"></div>
+
+        </section>
+
+        <!-- PAINEL -->
+
+        <section class="painel">
+
+            <div class="status-box">
+
+                <h2>
+
+                    DISTÂNCIA:
+                    <span id="distancia">0</span>
+                    Metros
+
+                </h2>
+
+            </div>
+
+            <div class="buttons-box">
+
+                <button class="btn encerrar">
+
+                    ENCERRAR
+
+                </button>
+
+                <div class="divider"></div>
+
+                <button class="btn rota">
+
+                    MUDAR ROTA
+
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="viagem.js"></script>
+
+</body>
+</html>
