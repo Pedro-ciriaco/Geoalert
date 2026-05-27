@@ -85,6 +85,60 @@ mapa.on('click', function(e){
 
 });
 
+const campoPesquisa =
+document.getElementById("pesquisa");
+
+campoPesquisa.addEventListener("keypress", async (e)=>{
+
+    if(e.key === "Enter"){
+
+        const local = campoPesquisa.value;
+
+        const resposta = await fetch(
+
+            `https://nominatim.openstreetmap.org/search?format=json&q=${local}`
+
+        );
+
+        const dados = await resposta.json();
+
+        if(dados.length > 0){
+
+            const latitude =
+            parseFloat(dados[0].lat);
+
+            const longitude =
+            parseFloat(dados[0].lon);
+
+            mapa.setView([latitude, longitude], 15);
+
+            destinoLat = latitude;
+            destinoLong = longitude;
+
+            if(marcadorDestino){
+
+                mapa.removeLayer(marcadorDestino);
+
+            }
+
+            marcadorDestino = L.marker([
+                latitude,
+                longitude
+            ])
+            .addTo(mapa)
+            .bindPopup(local)
+            .openPopup();
+
+        }else{
+
+            alert("Local não encontrado.");
+
+        }
+
+    }
+
+});
+
 /* BOTÃO */
 
 document.getElementById("iniciar")
@@ -108,8 +162,12 @@ document.getElementById("iniciar")
         destinoLong
     );
 
-    const raio =
+    const raioInput =
     document.getElementById("raio").value;
+
+    const raio = raioInput === ""
+    ? 5000
+    : parseFloat(raioInput) * 1000;
 
     localStorage.setItem(
         "raio",
