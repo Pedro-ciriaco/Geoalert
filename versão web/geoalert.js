@@ -44,7 +44,9 @@ navigator.geolocation.watchPosition((posicao)=>{
 
 },
 (error)=>{
+
     console.log(error);
+
 },
 {
     enableHighAccuracy: true
@@ -55,11 +57,12 @@ navigator.geolocation.watchPosition((posicao)=>{
 L.tileLayer(
 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 {
-    attribution: '&copy; OpenStreetMap contributors'
+    attribution:
+    '&copy; OpenStreetMap contributors'
 })
 .addTo(mapa);
 
-/* DESTINO */
+/* DESTINO PELO MAPA */
 
 mapa.on('click', function(e){
 
@@ -85,6 +88,8 @@ mapa.on('click', function(e){
 
 });
 
+/* PESQUISA */
+
 const campoPesquisa =
 document.getElementById("pesquisa");
 
@@ -92,7 +97,8 @@ campoPesquisa.addEventListener("keypress", async (e)=>{
 
     if(e.key === "Enter"){
 
-        const local = campoPesquisa.value;
+        const local =
+        campoPesquisa.value;
 
         const resposta = await fetch(
 
@@ -100,7 +106,8 @@ campoPesquisa.addEventListener("keypress", async (e)=>{
 
         );
 
-        const dados = await resposta.json();
+        const dados =
+        await resposta.json();
 
         if(dados.length > 0){
 
@@ -110,14 +117,19 @@ campoPesquisa.addEventListener("keypress", async (e)=>{
             const longitude =
             parseFloat(dados[0].lon);
 
-            mapa.setView([latitude, longitude], 15);
+            mapa.setView(
+                [latitude, longitude],
+                15
+            );
 
             destinoLat = latitude;
             destinoLong = longitude;
 
             if(marcadorDestino){
 
-                mapa.removeLayer(marcadorDestino);
+                mapa.removeLayer(
+                    marcadorDestino
+                );
 
             }
 
@@ -131,7 +143,9 @@ campoPesquisa.addEventListener("keypress", async (e)=>{
 
         }else{
 
-            alert("Local não encontrado.");
+            alert(
+                "Local não encontrado."
+            );
 
         }
 
@@ -147,10 +161,26 @@ document.getElementById("iniciar")
     if(destinoLat === null ||
        destinoLong === null){
 
-        alert("Selecione um destino no mapa.");
+        alert(
+            "Selecione um destino."
+        );
 
         return;
     }
+
+    /* NOME LOCAL */
+
+    const nomeLocal =
+    document.getElementById(
+        "pesquisa"
+    ).value;
+
+    localStorage.setItem(
+        "nomeLocal",
+        nomeLocal
+    );
+
+    /* DESTINO */
 
     localStorage.setItem(
         "destinoLat",
@@ -162,19 +192,33 @@ document.getElementById("iniciar")
         destinoLong
     );
 
+    /* RAIO */
+
     const raioInput =
-    document.getElementById("raio").value;
+    document.getElementById(
+        "raio"
+    ).value;
 
     const raio = raioInput === ""
-    ? 5000
-    : parseFloat(raioInput) * 1000;
+    ? 5
+    : parseFloat(raioInput);
 
     localStorage.setItem(
         "raio",
         raio
     );
 
+    /* IR PARA VIAGEM */
+
     window.location.href =
     "viagem.html";
+
+});
+
+document.querySelector(".historico-btn")
+.addEventListener("click", ()=>{
+
+    window.location.href =
+    "historico.html";
 
 });

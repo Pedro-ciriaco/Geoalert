@@ -1,0 +1,186 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    --navy: #1C2C5B;
+    --cream: #F1E7D6;
+    --gray: #6D7680;
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--cream);
+
+    overflow: hidden;
+}
+
+/* HEADER */
+
+header{
+    width: 100%;
+    height: 90px;
+
+    background: rgba(108,117,125,0.75);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 40px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.4);
+
+    position: absolute;
+    z-index: 10;
+
+    backdrop-filter: blur(5px);
+}
+
+header h1{
+    font-size: 3rem;
+    font-weight: 400;
+
+    color: var(--navy);
+}
+
+.inicio{
+    background: transparent;
+
+    border: none;
+
+    color: white;
+
+    font-size: 1.5rem;
+
+    cursor: pointer;
+}
+
+/* MAIN */
+
+.container{
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+}
+
+/* LEFT */
+
+.left-side{
+    width: 40%;
+    height: 100vh;
+}
+
+.left-side img{
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+/* RIGHT */
+
+.right-side{
+    width: 60%;
+    height: 100vh;
+
+    background-color: var(--cream);
+
+    padding-top: 120px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+/* TOPO */
+
+.topo{
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 1.6rem;
+
+    border-bottom: 1px solid #8E8E8E;
+
+    padding-bottom: 10px;
+
+    margin-bottom: 20px;
+}
+
+/* HISTÓRICO */
+
+#historico-lista{
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.viagem{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-bottom: 1px solid #8E8E8E;
+
+    padding: 20px 0;
+
+    font-size: 1.5rem;
+}
+
+/* RESPONSIVO */
+
+@media(max-width: 1000px){
+
+    body{
+        overflow-y: auto;
+    }
+
+    .container{
+        flex-direction: column;
+    }
+
+    .left-side{
+        width: 100%;
+        height: 35vh;
+    }
+
+    .right-side{
+        width: 100%;
+        height: auto;
+
+        padding-bottom: 40px;
+    }
+
+}
+
+.historico-btn,
+.inicio{
+
+    margin-left: auto;
+    margin-right: 40px;
+
+    background: transparent;
+
+    border: none;
+
+    color: white;
+
+    font-size: 1.5rem;
+
+    font-family: 'Poppins', sans-serif;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+}
+
+.historico-btn:hover,
+.inicio:hover{
+
+    opacity: 0.7;
+
+}

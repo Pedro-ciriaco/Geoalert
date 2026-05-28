@@ -1,25 +1,39 @@
 let historicoViagens = JSON.parse(
-    localStorage.getItem("historicoViagens")
+    localStorage.getItem(
+        "historicoViagens"
+    )
 ) || [];
 
-const alarme = new Audio("assets/sounds/som_alarme.wav");
+const alarme = new Audio(
+    "assets/sounds/som_alarme.wav"
+);
 
 let alertaAtivado = false;
 
 const mapa = L.map('map');
 
-/* DESTINO SALVO */
+/* DESTINO */
 
 let destinoLat =
-parseFloat(localStorage.getItem("destinoLat"));
+parseFloat(
+    localStorage.getItem(
+        "destinoLat"
+    )
+);
 
 let destinoLong =
-parseFloat(localStorage.getItem("destinoLong"));
+parseFloat(
+    localStorage.getItem(
+        "destinoLong"
+    )
+);
 
-/* RAIO SALVO */
+/* RAIO */
 
 const raio =
-parseFloat(localStorage.getItem("raio")) * 1000;
+parseFloat(
+    localStorage.getItem("raio")
+) * 1000;
 
 /* USUÁRIO */
 
@@ -48,8 +62,6 @@ navigator.geolocation.watchPosition((posicao)=>{
     usuarioLat = latitudeUsuario;
     usuarioLong = longitudeUsuario;
 
-    /* CENTRALIZA APENAS UMA VEZ */
-
     if(primeiraLocalizacao){
 
         mapa.setView(
@@ -61,15 +73,17 @@ navigator.geolocation.watchPosition((posicao)=>{
 
     }
 
-    /* REMOVE MARCADOR ANTIGO */
+    /* REMOVE ANTIGO */
 
     if(marcadorUsuario){
 
-        mapa.removeLayer(marcadorUsuario);
+        mapa.removeLayer(
+            marcadorUsuario
+        );
 
     }
 
-    /* MARCADOR USUÁRIO */
+    /* NOVO MARCADOR */
 
     marcadorUsuario = L.marker([
         latitudeUsuario,
@@ -78,12 +92,13 @@ navigator.geolocation.watchPosition((posicao)=>{
     .addTo(mapa)
     .bindPopup("Você está aqui");
 
-    /* CÁLCULO DISTÂNCIA */
+    /* DISTÂNCIA */
 
     if(destinoLat !== null &&
        destinoLong !== null){
 
-        const distancia = calcularDistancia(
+        const distancia =
+        calcularDistancia(
 
             latitudeUsuario,
             longitudeUsuario,
@@ -99,7 +114,8 @@ navigator.geolocation.watchPosition((posicao)=>{
 
         document.getElementById(
             "distancia"
-        ).innerText = distancia.toFixed(0);
+        ).innerText =
+        distancia.toFixed(0);
 
         /* ALERTA */
 
@@ -143,7 +159,7 @@ L.tileLayer(
 
 ).addTo(mapa);
 
-/* MOSTRAR DESTINO */
+/* DESTINO */
 
 if(destinoLat && destinoLong){
 
@@ -170,23 +186,37 @@ document.querySelector(".encerrar")
 
     const viagem = {
 
-    destino: `${destinoLat}, ${destinoLong}`,
+        local:
+        localStorage.getItem(
+            "nomeLocal"
+        ),
 
-    distanciaFinal:
-    document.getElementById("distancia")
-    .innerText,
+        destino:
+        `${destinoLat}, ${destinoLong}`,
 
-    data:
-    new Date().toLocaleString()
+        distanciaFinal:
+        document.getElementById(
+            "distancia"
+        ).innerText,
 
-};
+        data:
+        new Date().toLocaleString()
 
-historicoViagens.push(viagem);
+    };
 
-localStorage.setItem(
-    "historicoViagens",
-    JSON.stringify(historicoViagens)
-);
+    historicoViagens.push(
+        viagem
+    );
+
+    localStorage.setItem(
+
+        "historicoViagens",
+
+        JSON.stringify(
+            historicoViagens
+        )
+
+    );
 
     window.location.href =
     "geoalert.html";
@@ -221,10 +251,12 @@ function calcularDistancia(
     lat2 * Math.PI / 180;
 
     const deltaPhi =
-    (lat2-lat1) * Math.PI / 180;
+    (lat2-lat1) *
+    Math.PI / 180;
 
     const deltaLambda =
-    (lon2-lon1) * Math.PI / 180;
+    (lon2-lon1) *
+    Math.PI / 180;
 
     const a =
 
@@ -248,10 +280,14 @@ function calcularDistancia(
 
 }
 
+/* DEBUG */
+
 console.log(
 
-JSON.parse(
-localStorage.getItem("historicoViagens")
-)
+    JSON.parse(
+        localStorage.getItem(
+            "historicoViagens"
+        )
+    )
 
 );
