@@ -1,3 +1,7 @@
+let historicoViagens = JSON.parse(
+    localStorage.getItem("historicoViagens")
+) || [];
+
 const alarme = new Audio("assets/sounds/som_alarme.wav");
 
 let alertaAtivado = false;
@@ -164,6 +168,26 @@ document.querySelector(".encerrar")
 
     alarme.currentTime = 0;
 
+    const viagem = {
+
+    destino: `${destinoLat}, ${destinoLong}`,
+
+    distanciaFinal:
+    document.getElementById("distancia")
+    .innerText,
+
+    data:
+    new Date().toLocaleString()
+
+};
+
+historicoViagens.push(viagem);
+
+localStorage.setItem(
+    "historicoViagens",
+    JSON.stringify(historicoViagens)
+);
+
     window.location.href =
     "geoalert.html";
 
@@ -223,3 +247,11 @@ function calcularDistancia(
     return raioTerra * c;
 
 }
+
+console.log(
+
+JSON.parse(
+localStorage.getItem("historicoViagens")
+)
+
+);
